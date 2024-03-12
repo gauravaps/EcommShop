@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import Header from './components/Header';
-import {Outlet} from 'react-router-dom';
-import Footer from './components/Footer';
+import {Outlet} from 'react-router-dom'
+import Footer from './components/Footer'
 
 
 const App = () => {
