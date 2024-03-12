@@ -10,7 +10,7 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
             query:()=>({
                 url:PRODUCTS_URL,
                 
-            }),
+            }), 
             keepUnusedDataFor:5,
         }),
 

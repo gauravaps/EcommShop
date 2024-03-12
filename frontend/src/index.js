@@ -11,6 +11,7 @@ import App from './App';
 import Homescreen from './screens/Homescreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
+import LoginScreen from './screens/LoginScreen';
 
 
 
@@ -26,6 +27,7 @@ root.render(
           <Route index={true} path='/' element={<Homescreen/>}/>
           <Route path='/product/:id' element={<ProductScreen/>}/>
           <Route path='/cart' element={<CartScreen/>}/>
+          <Route path='/login' element={<LoginScreen/>}/>
         </Route>
         
       </Routes>

@@ -32,7 +32,7 @@ const Header = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
               <LinkContainer to={'/cart'}> 
-                <Nav.Link>
+                <Nav.Link> 
                   <FaShoppingCart/>Cart
                   {cartItem.length > 0 && (
                     <Badge pill bg='success' style={{marginLeft:'5px'}}>
