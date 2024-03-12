@@ -4,7 +4,7 @@ import usermodel from "../models/userModel.js";
 import { customError } from "./apierror.js";
 import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 
 // middleware for protect routes
