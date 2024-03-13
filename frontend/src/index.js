@@ -6,12 +6,12 @@ import './assests/styles/bootstrap.custom.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import store from './Store';
 import {Provider} from 'react-redux'
-
 import App from './App';
 import Homescreen from './screens/Homescreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
 import LoginScreen from './screens/LoginScreen';
+import Registration from './screens/Registration';
 
 
 
@@ -28,6 +28,7 @@ root.render(
           <Route path='/product/:id' element={<ProductScreen/>}/>
           <Route path='/cart' element={<CartScreen/>}/>
           <Route path='/login' element={<LoginScreen/>}/>
+          <Route path='/register' element={<Registration/>}/>
         </Route>
         
       </Routes>

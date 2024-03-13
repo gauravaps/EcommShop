@@ -1,10 +1,13 @@
 import React from 'react'
 import {FaShoppingCart, FaUser} from 'react-icons/fa'
-import {Navbar ,Nav,Container, Badge} from 'react-bootstrap'
+import {Navbar ,Nav,Container, Badge, NavDropdown} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import logo2 from '../assests/shopify white (1).png'
-import { Link } from 'react-router-dom'
-import {  useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import {  useDispatch, useSelector } from 'react-redux'
+import { useLoginMutation, useLogoutuserMutation } from '../slices/UserApiSlice'
+import { logout } from '../slices/authSlice'
+import { toast } from 'react-toastify'
 
 
 
@@ -12,7 +15,31 @@ import {  useSelector } from 'react-redux'
 
 const Header = () => {
   const {cartItem} = useSelector((state)=>state.cart)
+  const {userInfo} =useSelector((state)=> state.auth);
+  const dispatch =useDispatch()
+  const navigate =useNavigate()
+  const [logoutApi] =useLogoutuserMutation()
+
   console.log(cartItem)
+
+  const logoutHandler = async()=>{
+    try {
+      await logoutApi()
+      dispatch(logout(userInfo))
+      navigate('/login')
+      
+
+    } catch (err) {
+      console.log(err)
+      toast.error(err?.data?.message || err.error.message)
+
+
+
+
+      
+    }
+    
+  }
 
 
 
@@ -41,12 +68,16 @@ const Header = () => {
                   )}
                   </Nav.Link>
                 </LinkContainer>
+                 {userInfo ?(<NavDropdown title={userInfo.name} id='username'> 
+                 <LinkContainer to={'/profile'}>
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                 </LinkContainer>
+                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                  
-                <LinkContainer to={'/login'}> 
-                 <Nav.Link><FaUser/>Login</Nav.Link>  
+                 </NavDropdown>):(<LinkContainer to={'/login'}> 
+                 <Nav.Link><FaUser/>Login</Nav.Link>    
+                </LinkContainer>)}
                 
-                </LinkContainer>
- 
             </Nav>
 
 

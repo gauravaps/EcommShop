@@ -12,7 +12,22 @@ const UserApiSlice =ApiSlices.injectEndpoints({
 
             }),
         }),
+        registration:builder.mutation({
+            query:(data)=>({
+                url:`${USERS_URL}/register`,
+                method:'post',
+                body:data,
+
+            }),
+        }),
+        logoutuser:builder.mutation({
+            query:() =>({
+                url:`${USERS_URL}/logout`,
+                method:'post',
+            }),
+
+        }),
     })
 });
 
-export const {useLoginMutation} =UserApiSlice;
+export const {useLoginMutation ,useRegistrationMutation ,useLogoutuserMutation} =UserApiSlice;

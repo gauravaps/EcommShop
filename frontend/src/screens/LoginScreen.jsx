@@ -2,8 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Form ,Button ,Row ,Col } from 'react-bootstrap'
 import { FormContainer } from '../components/FormContainer'
 import { useEffect, useState } from 'react'
-import { UseSelector ,useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
+import {useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/UserApiSlice';
 import { setCredential } from '../slices/authSlice';
 import {toast} from 'react-toastify'
@@ -24,16 +23,18 @@ const [login ,{isLoading}] =useLoginMutation();
 const {userInfo} =useSelector((state)=> state.auth);
 if(login){
     console.log(login)
-}
-const {search} =useLocation();
-const sp =new URLSearchParams(search);
-const redirect =sp.get('redirect') || '/' ;
+ }
 
-useEffect(()=>{
-    if(userInfo){
-        navigate(redirect)
-    }
-},[userInfo ,redirect ,navigate])
+ const { search } = useLocation();
+ const sp = new URLSearchParams(search);
+ const redirect = sp.get('redirect') || '/';
+
+ useEffect(() => {
+   if (userInfo) {
+     navigate(redirect);
+   }
+ }, [navigate, redirect, userInfo]);
+ 
 
 const submithandler =async(e)=>{
     e.preventDefault();
@@ -52,6 +53,7 @@ const submithandler =async(e)=>{
 
   return (
     <FormContainer>
+       <h1>Sign In</h1>
         <Form onSubmit={submithandler}>
 
             <Form.Group controlId='email' className='my-3'>
@@ -76,8 +78,13 @@ const submithandler =async(e)=>{
 
         <Row className='py-3'>
             <Col>
-            New custmore? <Link to={redirect?`redirect=${redirect}`:'/register'}> Registration</Link>
-            </Col>
+
+            New Customer?{' '}
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+            Register
+          </Link>  
+
+          </Col>
         </Row>
 
     </FormContainer>
