@@ -3,7 +3,8 @@ import { updateCart } from "../utils/CartUtils";
 
 
 
-const initialState =localStorage.getItem('cart')? JSON.parse(localStorage.getItem('cart')):{cartItem:[]}
+const initialState =localStorage.getItem('cart')? JSON.parse(localStorage.getItem('cart')):{cartItem:[] 
+    ,shippingAdress:{} ,payment:{} ,paypal:{}}
 export const addDecimal =(num) =>{
     
     return (Math.round(num*100) / 100).toFixed(2)
@@ -25,8 +26,6 @@ const CartSlice=createSlice({
             }else{
                 state.cartItem=[...state.cartItem ,item]
             } 
-
-
             
            return updateCart(state)
 
@@ -35,12 +34,16 @@ const CartSlice=createSlice({
         removeCart:(state ,action) =>{
             state.cartItem=state.cartItem.filter((x)=> x._id !== action.payload)
             return updateCart(state)
-        }
+        },
+        saveShippingAddress:(state ,action) =>{
+            state.shippingAdress =action.payload
+            return updateCart(state)
+        },
     
 
     },
        
 })
 
-export const{addToCart , removeCart} =CartSlice.actions;
+export const{addToCart , removeCart ,saveShippingAddress} =CartSlice.actions;
 export default CartSlice.reducer;
