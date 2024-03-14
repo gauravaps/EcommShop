@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import dbconnect from './config/db.js';
 import productroute from './routes/productroute.js';
 import userroute from './routes/userRoute.js'
+import orderRoute from './routes/orderRoute.js'
 import { errorHandler, Notfound} from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
  
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', productroute); 
 app.use('/api/user',userroute); 
+app.use('/api/order' , orderRoute)
 
 
 app.use(Notfound);
