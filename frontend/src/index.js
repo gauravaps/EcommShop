@@ -14,6 +14,7 @@ import LoginScreen from './screens/LoginScreen';
 import Registration from './screens/Registration';
 import ShippingScreeen from './screens/ShippingScreeen';
 import PrivateRoute from './components/PrivateRoute';
+import PaymentScreen from './screens/PaymentScreen';
 
 
 
@@ -33,12 +34,18 @@ root.render(
           <Route path='/register' element={<Registration/>}/>
           
 
+          
+
           <Route path='' element={<PrivateRoute/>}>
           <Route path='/shipping' element={<ShippingScreeen/>}/>
+          <Route path='/payment' element={<PaymentScreen/>}/>
 
           </Route>
 
-        </Route>
+
+          </Route>
+
+        
         
       </Routes>
     </BrowserRouter>

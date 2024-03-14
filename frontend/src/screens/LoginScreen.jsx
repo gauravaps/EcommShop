@@ -21,9 +21,7 @@ const navigate =useNavigate()
 const [login ,{isLoading}] =useLoginMutation();
 
 const {userInfo} =useSelector((state)=> state.auth);
-if(login){
-    console.log(login)
- }
+
 
  const { search } = useLocation();
  const sp = new URLSearchParams(search);

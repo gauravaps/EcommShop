@@ -4,7 +4,8 @@ import { updateCart } from "../utils/CartUtils";
 
 
 const initialState =localStorage.getItem('cart')? JSON.parse(localStorage.getItem('cart')):{cartItem:[] 
-    ,shippingAdress:{} ,payment:{} ,paypal:{}}
+    ,shippingAdress:{} ,paymentMethod:'paypal'}
+
 export const addDecimal =(num) =>{
     
     return (Math.round(num*100) / 100).toFixed(2)
@@ -39,11 +40,18 @@ const CartSlice=createSlice({
             state.shippingAdress =action.payload
             return updateCart(state)
         },
+
+        savePaymentMethod:(state , action) =>{
+            state.paymentMethod =action.payload
+            return updateCart(state)
+        },
+        
+        
     
 
     },
        
 })
 
-export const{addToCart , removeCart ,saveShippingAddress} =CartSlice.actions;
+export const{addToCart , removeCart ,saveShippingAddress ,savePaymentMethod } =CartSlice.actions;
 export default CartSlice.reducer;

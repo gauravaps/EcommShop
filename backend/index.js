@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/api', productroute); 
-app.use('/api/user',userroute);
+app.use('/api/user',userroute); 
 
 
 app.use(Notfound);
