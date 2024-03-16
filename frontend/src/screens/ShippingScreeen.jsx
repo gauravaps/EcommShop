@@ -16,7 +16,7 @@ const ShippingScreeen = () => {
     const [address ,setaddress] =useState(shippingAdress?.address || '')
     const [city ,setcity] =useState(shippingAdress?.city || '')
     const [postalCode , setpostalCode] =useState(shippingAdress?.postalCode || '')
-    const [county ,setcounty] =useState(shippingAdress?.county || '')
+    const [country ,setcountry] =useState(shippingAdress?.country || '')
 
     const dispatch =useDispatch() 
     const navigate =useNavigate()
@@ -24,7 +24,7 @@ const ShippingScreeen = () => {
     //handler function 
     const submitHandler =(e) =>{
         e.preventDefault();
-        dispatch(saveShippingAddress({address ,city ,postalCode ,county}))
+        dispatch(saveShippingAddress({address ,city ,postalCode ,country}))
         navigate('/payment')
     }
 
@@ -65,8 +65,8 @@ const ShippingScreeen = () => {
             <Form.Group controlId='country' className='my-2'>
                 
                 <Form.Label>Country</Form.Label>
-                <Form.Control type='text' placeholder='Enter your county' value={county}
-                 onChange={(e) =>setcounty(e.target.value)}>
+                <Form.Control type='text' placeholder='Enter your county' value={country}
+                 onChange={(e) =>setcountry(e.target.value)}>
                 </Form.Control>
 
             </Form.Group>

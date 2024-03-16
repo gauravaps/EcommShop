@@ -32,7 +32,7 @@ const productSchema =new mongoose.Schema({
 
     user:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'usermodel',
+        ref:'usermodels',
         required:true,
     },
 

@@ -9,16 +9,34 @@ dotenv.config();
 //post /api/order
 //private
 const addOrderitems =asyncHandler(async(req ,res ,next) =>{
-    res.send('add order items')
-});
+    const {orderItems,shippingAddress,paymentMethod,itemsPrice,taxPrice,shippingPrice,totalPrice} =req.body;
+
+    if(orderItems && orderItems.length === 0){
+        let err =new customError("No order items", 400)
+        return next(err)
+    }
+
+    const order = new ordermodel({
+        user:req.activeUser._id,
+         orderItems:orderItems.map((x) => ({
+            ...x,
+           product:x._id,
+           _id:undefined,
+
+         })),
 
 
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
 
-//Get logged in user orders
-//post /api/order/myorders
-//private
-const getMyOrders =asyncHandler(async(req ,res ,next) =>{
-    res.send('get my order')
+                                
+    })
+    const saveOrder =await order.save();
+    res.status(200).json(saveOrder);
 });
 
 
@@ -27,8 +45,36 @@ const getMyOrders =asyncHandler(async(req ,res ,next) =>{
 //post /api/order/:id
 //private
 const getOrderById =asyncHandler(async(req ,res ,next) =>{
-    res.send('get order by id')
+
+    const user={
+        name:req.activeUser.name,
+        email:req.activeUser.email,
+
+    }
+    
+     const orders =await ordermodel.findById(req.params.id).populate('user' ,'name email' );
+
+    if(orders){
+        res.status(200).json(orders)
+
+    } else{
+        let err = new customError('Order not found' ,404);
+        return next(err);
+    }
 });
+
+
+
+//Get logged in user orders
+//post /api/order/myorders
+//private
+const getMyOrders =asyncHandler(async(req ,res ,next) =>{
+    const orders =await ordermodel.find({user:req.activeUser._id})
+    res.status(200).json(orders)
+});
+
+
+
 
 
 

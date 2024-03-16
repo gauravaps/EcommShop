@@ -15,7 +15,7 @@ const orderSchema= new mongoose.Schema({
             price:{type:Number, required:true},
             product:{
                 type:mongoose.Schema.Types.ObjectId,
-                ref:'productmodel',
+                ref:'productmodels',
                 required:true,
             },
         }
@@ -24,42 +24,42 @@ const orderSchema= new mongoose.Schema({
     shippingAddress:{
         address:{type:String, required:true},
         city:{type:String,required:true},
-        postcode:{type:Number , required:true},
+        postalCode:{type:Number , required:true},
         country:{type:String , required:true},
 
     },
 
-    paymenymethod:{
+    paymentMethod:{
         type:String,
         required:true,
     },
 
-    paymentresult:{
+    paymentResult:{
         id:{type:String},
         status:{type:String},
         update_time:{type:String},
         email_address:{type:String},
     },
 
-    itemsprice:{
+    itemsPrice:{
         type:Number,
         required:true,
         default:0.0,
     },
     
-    texprice:{
+    taxPrice:{
         type:Number,
         required:true,
         default:0.0,
     },
 
-    shippingprice:{
+    shippingPrice:{
         type:Number,
         required:true,
         default:0.0,
     },
 
-    totalprice:{
+    totalPrice:{
         type:Number,
         required:true,
         default:0.0,

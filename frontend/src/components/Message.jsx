@@ -15,4 +15,4 @@ Message.defaultProps ={
     variant:'info'
 };
 
-export default Message
+export default Message ;
