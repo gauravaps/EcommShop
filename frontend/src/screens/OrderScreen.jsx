@@ -1,22 +1,72 @@
-import React from 'react'
-import { useGetOrderByIdQuery } from '../slices/OrderApiSlice'
+import React, { useEffect } from 'react'
+import { useGetOrderByIdQuery ,usePayOrderMutation ,useGetPaypalClientIdQuery} from '../slices/OrderApiSlice'
 import {Button ,Row ,Col ,Card, ListGroup, Image} from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
+
 
 const OrderScreen = () => {
     const {id:userId} =useParams()
     console.log(userId)
     const {data:order, isFetching, isLoading ,error} =useGetOrderByIdQuery(userId)
 
+  const {userInfo} =useSelector((state)=> state.auth);
+  const [payOrder,{isLoading:loadingpay}] =usePayOrderMutation();
 
-    if(error){
-        console.log(error) 
+  const {data: paypal,
+    isLoading: loadingPayPal,
+    error: errorPayPal,} =useGetPaypalClientIdQuery()
+
+    if(errorPayPal){
+      console.log(errorPayPal)
     }else{
-        console.log(order);
-
+      console.log(paypal?.clientId) 
     }
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  useEffect(() => {
+    if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+      const loadPaypalScript = async () => {
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': paypal.clientId,
+            currency: 'INR',
+          },
+        });
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      };
+      if (order && !order.isPaid) {
+        if (!window.paypal) {
+          loadPaypalScript();
+        }
+      }
+    }
+  }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
+
+
+  //paypal work here.
+  function onApprovTest() {
+    console.log('paypal')
+  }
+
+  function createOrder(){
+
+  }
+
+  function onApprove(){
+    
+  }
+
+  function onError (){
+    
+  }
+
 
   return  isLoading ? <Loader/>:error? <Message variant='danger'/> :
   (<>
@@ -25,6 +75,7 @@ const OrderScreen = () => {
     <Col md={8}>
     <ListGroup>
       <ListGroup.Item>
+        
         <h4>Shipping</h4>
         <p>
           <strong>Name:</strong>{order.user.name}
@@ -109,7 +160,26 @@ const OrderScreen = () => {
             <Col>Total</Col>
             <Col>${order.totalPrice}</Col>
           </Row>
-          {/*pay order placeholde */}
+
+          {!order.isPaid && (
+            <ListGroup.Item>
+              {loadingpay && <Loader/>}
+              { isPending ?<Loader/>:(
+              <div>
+                 <Button onClick={onApprovTest} style={{marginBottom:'10px'}}>test pay order</Button> 
+                <div>
+                 <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+
+              </div>
+              )}
+            </ListGroup.Item>
+          )}
+
           {/*MARK AS DELIVERED PLACEHOLDER */}
           
 

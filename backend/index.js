@@ -7,7 +7,8 @@ import userroute from './routes/userRoute.js'
 import orderRoute from './routes/orderRoute.js'
 import { errorHandler, Notfound} from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
- 
+import { customError } from './middleware/apierror.js';
+
 
 dbconnect()
 dotenv.config()
@@ -16,9 +17,10 @@ dotenv.config()
 
 
 
-
-const app =express()
+const app =express();
 const port=process.env.PORT || 5000;
+
+
 
 //set cookie-parser middleware
 app.use(cookieParser());
@@ -32,6 +34,15 @@ app.use('/api', productroute);
 app.use('/api/user',userroute); 
 app.use('/api/order' , orderRoute)
 
+app.get('/api/config/paypal', (req, res, next) => {
+    const clientId = process.env.PAYPAL_CLIENT_ID;;
+    if (!clientId) {
+        const error = new Error('PayPal client ID is not set');
+        return next(error);
+    }
+    res.send({ clientId });
+});
+
 
 app.use(Notfound);
 
@@ -44,4 +55,7 @@ app.use(Notfound);
 
 app.listen(port, () => {
     console.log(` ⚙️  express is running on port ${port}`);
+    
+
+    
 });
