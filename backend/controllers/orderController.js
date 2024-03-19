@@ -2,6 +2,11 @@ import dotenv from "dotenv";
 import ordermodel from "../models/orderModel.js";
 import { customError } from "../middleware/apierror.js";
 import asyncHandler from "../middleware/asyncHandler.js";
+import razorpay from 'razorpay';
+import crypto from 'crypto';
+
+const API_KEY='rzp_test_B4h4G5aIXIDmF3'
+const SECRET_KEY='tZlUSy0PyMSlFCCcqceqcU0Q' 
 
 dotenv.config();
 
@@ -15,7 +20,7 @@ const addOrderitems =asyncHandler(async(req ,res ,next) =>{
         let err =new customError("No order items", 400)
         return next(err)
     }
-
+    
     const order = new ordermodel({
         user:req.activeUser._id,
          orderItems:orderItems.map((x) => ({
@@ -38,6 +43,80 @@ const addOrderitems =asyncHandler(async(req ,res ,next) =>{
     const saveOrder =await order.save();
     res.status(200).json(saveOrder);
 });
+
+
+// Initialize Razorpay instance with your API keys
+const instance = new razorpay({
+    key_id: API_KEY,
+    key_secret: SECRET_KEY,
+});
+
+// razorpay order create..
+
+const razorpaycreateOrder= async(req ,res) =>{
+    try {
+        const totalPrice = req.body.totalPrice;
+        const saveOrder = req.body.saveOrder;
+
+        
+
+         // Prepare options for creating a Razorpay order
+         const options = {
+            amount: Number(totalPrice * 100), // Amount in paise
+            currency: 'INR', // Currency (change as per your requirement)
+            receipt: saveOrder._id.toString(), // Unique identifier for order
+            payment_capture: 1, // Auto-capture payment after order creation
+        };
+         // Create Razorpay order
+         const razorpayOrder = await instance.orders.create(options);
+
+         // Send response with the newly created order and Razorpay order details
+         res.status(200).json({ success: true, order: saveOrder, razorpayOrder });
+
+
+        
+    } catch (error) {
+        // Handle any errors that occur during order creation or Razorpay integration
+        console.error('Error creating order:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+        
+    }
+}
+
+
+// Payment verification after successful payment in Razorpay
+// POST /api/order/verify
+// public
+
+const paymentVerify =asyncHandler(async(req ,res ,next) =>{
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+        // Generate expected signature using Razorpay secret key
+        const hmac = crypto.createHmac('sha256', SECRET_KEY);
+        hmac.update(razorpay_order_id + '|' + razorpay_payment_id);
+        const expectedSignature = hmac.digest('hex');
+
+        // Verify the signature
+        if (expectedSignature === razorpay_signature) {
+            // Payment verification successful
+            // Perform any additional actions here (e.g., updating order status)
+            res.status(200).json({ success: true, message: 'Payment verification successful' });
+        } else {
+            // Signature mismatch, payment verification failed
+            res.status(400).json({ success: false, message: 'Payment verification failed: Signature mismatch' });
+        }
+    } catch (error) {
+        // Handle any errors that occur during payment verification
+        console.error('Error verifying payment:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+})
+
+
+
+
+
 
 
 
@@ -76,23 +155,21 @@ const getMyOrders =asyncHandler(async(req ,res ,next) =>{
 
 
 
-
-
 //update order to paid
-//pu /api/order/:id?pay
+//put /api/order/:id?pay
 //private
 const updateOrderToPaid =asyncHandler(async(req ,res ,next) =>{
 
-    const order =ordermodel.findById(req.params.id);
+    const order =await ordermodel.findById(req.params.id);
 
     if(order){
         order.isPaid=true,
         order.paidAt=Date.now(),
         order.paymentResult={
-            id:req.body.id,
+            id:req.body.razorpay_order_id,
             status:req.body.status,
             update_time:req.body.update_time,
-            email_address:req.body.payer.email_address,
+            email_address:req.body.email,
         }
 
         const saveOrder =await order.save();
@@ -106,11 +183,12 @@ const updateOrderToPaid =asyncHandler(async(req ,res ,next) =>{
 
 
 
+
 //Gupdate to delivered
 //put /api/order/:id/delivered
 //private/admin
 const updateOrderToDelivered =asyncHandler(async(req ,res ,next) =>{
-    res.send('update order to deliverd')
+    res.send('update order to deliverd');
 });
 
 
@@ -124,7 +202,7 @@ const getAllOrders =asyncHandler(async(req ,res ,next) =>{
 
 
 
-export{addOrderitems ,getMyOrders ,getOrderById,updateOrderToPaid ,updateOrderToDelivered ,getAllOrders}
+export{addOrderitems ,getMyOrders ,getOrderById,updateOrderToPaid ,updateOrderToDelivered ,getAllOrders ,paymentVerify ,razorpaycreateOrder}
 
 
 

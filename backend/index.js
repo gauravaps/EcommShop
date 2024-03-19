@@ -8,6 +8,8 @@ import orderRoute from './routes/orderRoute.js'
 import { errorHandler, Notfound} from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import { customError } from './middleware/apierror.js';
+import cors from 'cors' ;
+
 
 
 dbconnect()
@@ -28,6 +30,8 @@ app.use(cookieParser());
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
 
 
 app.use('/api', productroute); 
@@ -35,7 +39,7 @@ app.use('/api/user',userroute);
 app.use('/api/order' , orderRoute)
 
 app.get('/api/config/paypal', (req, res, next) => {
-    const clientId = process.env.PAYPAL_CLIENT_ID;;
+    const clientId = process.env.API_KEY;
     if (!clientId) {
         const error = new Error('PayPal client ID is not set');
         return next(error);

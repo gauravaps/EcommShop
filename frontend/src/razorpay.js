@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useGetOrderByIdQuery ,usePayOrderMutation ,useGetPaypalClientIdQuery} from '../slices/OrderApiSlice'
-import {Button ,Row ,Col ,Card, ListGroup, Image} from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
-import Loader from '../components/Loader'
-import Message from '../components/Message'
-import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
-import axios from 'axios'
-
+import React, { useEffect, useState } from 'react';
+import { useGetOrderByIdQuery, usePayOrderMutation, useGetRazorpayClientIdQuery } from '../slices/OrderApiSlice'; // Assuming you have Razorpay API slice imported
+import { Button, Row, Col, Card, ListGroup, Image } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -20,39 +18,10 @@ const OrderScreen = () => {
 
   const { data: razorpayClient,
     isLoading: loadingRazorpay,
-    error: errorRazorpay } = useGetPaypalClientIdQuery(); // Assuming you have a Razorpay client ID API endpoint
+    error: errorRazorpay } = useGetRazorpayClientIdQuery(); // Assuming you have a Razorpay client ID API endpoint
 
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
-  const [razorpayOrderId, setRazorpayOrderId] = useState('');
 
-  useEffect(() => {
-    if (order) {
-      const res = axios.post('/api/order/createorder', {
-        totalPrice: order.totalPrice,
-        saveOrder: order,
-      });
-  
-      res.then(response => {
-        // Handle the response here
-        try {
-          const { order, razorpayOrder } = response.data;
-          console.log('Received order:', order);
-          console.log('Received Razorpay order:', razorpayOrder);
-          console.log('Received Razorpay order ID:', razorpayOrder.id);
-          setRazorpayOrderId(razorpayOrder.id);
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      })
-      .catch(error => {
-        // Handle any errors here
-        console.error('Error:', error);
-      });
-    }
-  }, [order]);
-  
-
-//for razorpay script code
   useEffect(() => {
     if (!errorRazorpay && !loadingRazorpay && razorpayClient.clientId) {
       const script = document.createElement('script');
@@ -60,14 +29,11 @@ const OrderScreen = () => {
       script.async = true;
       script.onload = () => {
         console.log("Razorpay script loaded successfully");
-        console.log(razorpayClient.clientId)
-        console.log(errorRazorpay)
-        
+        // Yahan par Razorpay ka script load ho chuka hai, aap ab iska istemal kar sakte hain
       };
       document.body.appendChild(script);
     }
   }, [errorRazorpay, loadingRazorpay, razorpayClient]);
-
 
   // Razorpay payment logic
   async function onApproveTest() {
@@ -78,33 +44,25 @@ const OrderScreen = () => {
       name: 'Your Company Name',
       description: 'Purchase Description',
       image: '/your_logo.png', // Your company logo
-      order_id:razorpayOrderId, // You need to generate order ID from backend
-      handler: async (paymentResponse) => { // 'paymentResponse' instead of 'response'
-
+      order_id: 'your_order_id', // You need to generate order ID from backend
+      handler: async (response) => {
         try {
           const data = {
-            razorpay_payment_id: paymentResponse.razorpay_payment_id,
-            email: paymentResponse.email, // Assuming you get email from response
+            razorpay_payment_id: response.razorpay_payment_id,
+            email: response.email, // Assuming you get email from response
           };
-          
           await payOrder({ orderId, details: data });
           setIsPaymentSuccess(true);
           refetch();
           toast.success('Order is paid');
-  
+
+          // Payment verification after successful payment
           const paymentVerificationData = {
-            razorpay_order_id: paymentResponse.razorpay_order_id,
-            razorpay_payment_id: paymentResponse.razorpay_payment_id,
-            razorpay_signature: paymentResponse.razorpay_signature,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
           };
-
-          //console all
-          console.log('Razorpay Order ID:', paymentResponse.razorpay_order_id);
-        console.log('Razorpay Payment ID:', paymentResponse.razorpay_payment_id);
-        console.log('Razorpay Signature:', paymentResponse.razorpay_signature);
-
-
-          const response = await fetch('/api/order/verify', {
+          const response = await fetch('/api/order/paymentverification', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -121,7 +79,6 @@ const OrderScreen = () => {
           }
         } catch (err) {
           toast.error(err?.data?.message || err.error);
-          console.log(err)
         }
       },
       prefill: {
@@ -134,8 +91,6 @@ const OrderScreen = () => {
     const rzp = new window.Razorpay(options);
     rzp.open();
   }
-
-
 
   return isLoading ? <Loader /> : error ? <Message variant='danger' /> : (
     <>
@@ -258,4 +213,4 @@ const OrderScreen = () => {
 
 }
 
-export default OrderScreen;
+//export default OrderScreen;
