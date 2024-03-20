@@ -44,8 +44,24 @@ import { ORDERS_URL ,PAYPAL_URL } from "../constant";
             keepUnusedDataFor:5,
         }),
 
+        getallOrders:builder.query({
+            query:() =>({
+                url:`${ORDERS_URL}/getallorders`,
+            }),
+            keepUnusedDataFor:5,
+
+        }),
+
+        deliveredOrder:builder.mutation({
+            query:(orderId)=>({
+                url:`${ORDERS_URL}/${orderId}/deliver`,
+                method:'PUT',
+            })
+        })
+
     }),
 })
 
 export const {useCreateOrderMutation , useGetOrderByIdQuery ,
-    usePayOrderMutation,useGetPaypalClientIdQuery ,useGetmyOrdersQuery} =OrderApiSlice; 
+    usePayOrderMutation,useGetPaypalClientIdQuery ,
+    useGetmyOrdersQuery ,useGetallOrdersQuery ,useDeliveredOrderMutation} =OrderApiSlice; 

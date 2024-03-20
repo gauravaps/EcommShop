@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useGetOrderByIdQuery ,usePayOrderMutation ,useGetPaypalClientIdQuery} from '../slices/OrderApiSlice'
+import { useGetOrderByIdQuery ,usePayOrderMutation ,useGetPaypalClientIdQuery ,useDeliveredOrderMutation} from '../slices/OrderApiSlice'
 import {Button ,Row ,Col ,Card, ListGroup, Image} from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import Loader from '../components/Loader'
@@ -14,6 +14,7 @@ const OrderScreen = () => {
   console.log(orderId);
 
   const { data: order, refetch, isLoading, error } = useGetOrderByIdQuery(orderId);
+  const [deliveredOrder,{isLoading:loadingDelivered}] =useDeliveredOrderMutation()
 
   const { userInfo } = useSelector((state) => state.auth);
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
@@ -153,6 +154,20 @@ const OrderScreen = () => {
     rzp.open();
   }
 
+  //deliverd handler
+  const deliverdOrderHandel = async(e)=>{
+    e.preventDefault()
+try {
+      const res =await deliveredOrder(orderId)
+      refetch();
+      toast.success('Order delivered');
+  
+} catch (err) {
+  toast.error(err?.data?.message || err.message)
+  
+}
+  }
+
  
 
 
@@ -182,7 +197,8 @@ const OrderScreen = () => {
 
                 {order.shippingAddress.country}
               </p>
-              {order.isDelivered ? (<Message variant='success' />) : (<Message variant='danger'>Not Delivered</Message>)}
+              {order.isDelivered ? (<Message variant='success' >Delivered on {order.deliveredAt}</Message>) : 
+              (<Message variant='danger'>Not Delivered</Message>)}
 
             </ListGroup.Item>
 
@@ -253,7 +269,7 @@ const OrderScreen = () => {
                   <ListGroup.Item>
                     {loadingPay && <Loader />}
                     {(
-                      <Button onClick={onApproveTest} style={{ marginBottom: '10px' }}>Pay with Razorpay</Button>
+                      <Button onClick={onApproveTest} style={{ marginBottom: '10px' }}>Pay Now</Button>
                     )}
                   </ListGroup.Item>
                 )}
@@ -264,7 +280,12 @@ const OrderScreen = () => {
                   </ListGroup.Item>
                 )}
 
-                {/* MARK AS DELIVERED PLACEHOLDER */}
+                {loadingDelivered &&<Loader/>}
+                {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered &&(
+                  <ListGroup.Item>
+                    <Button type='button' className='btn btn-block' onClick={deliverdOrderHandel}>Mark As Delivered </Button>
+                  </ListGroup.Item>
+                )}
               </ListGroup.Item>
 
             </ListGroup>

@@ -18,6 +18,8 @@ import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import ProfleUpdateScreen from './screens/ProfleUpdateScreen';
+import OrderAdminScreen from './screens/admin/OrderAdminScreen';
+import AdminRoute from './components/AdminRoute';
 
 
 
@@ -48,6 +50,15 @@ root.render(
           <Route path='/orderplace' element={<PlaceOrderScreen/>}/>
           <Route path='/order/:id' element={<OrderScreen/>}/>
           <Route path='/profile' element={<ProfleUpdateScreen/>}/>
+          
+
+          </Route>
+
+            {/* Admin Routes start here */}
+          <Route path='' element={<AdminRoute/>}>
+
+          <Route path='/admin/orderlist' element={<OrderAdminScreen/>}/>
+
 
           </Route>
 

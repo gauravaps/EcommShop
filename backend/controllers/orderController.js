@@ -187,7 +187,20 @@ const updateOrderToPaid =asyncHandler(async(req ,res ,next) =>{
 //put /api/order/:id/delivered
 //private/admin
 const updateOrderToDelivered =asyncHandler(async(req ,res ,next) =>{
-    res.send('update order to deliverd');
+    
+    const updateDeliverd = await ordermodel.findById(req.params.id);
+    
+    if(updateDeliverd){
+        updateDeliverd.isDelivered=true;
+        updateDeliverd.deliveredAt=Date.now();
+
+        const updateStatus = await updateDeliverd.save()
+        res.status(200).json(updateStatus);
+
+    }else{
+        let err =('order not found' ,404);
+        return next(err);
+    }
 });
 
 
@@ -196,7 +209,15 @@ const updateOrderToDelivered =asyncHandler(async(req ,res ,next) =>{
 //get /api/order/id
 //private/admin
 const getAllOrders =asyncHandler(async(req ,res ,next) =>{
-    res.send('get all orders');
+
+    const allOrders =await ordermodel.find({}).populate('user' , 'id name');
+
+    if(allOrders){
+        res.status(200).json(allOrders)
+    }else{
+        let err =new customError('No order found' ,404);
+        return next(err)
+    }
 });
 
 //RAZORPAY TRANSACTION HERE 
