@@ -35,8 +35,17 @@ import { ORDERS_URL ,PAYPAL_URL } from "../constant";
             keepUnusedDataFor:5
         }),
 
-    })
+        getmyOrders:builder.query({
+            query:() =>({
+                url:`${ORDERS_URL}/myorders`,
+
+                
+            }),
+            keepUnusedDataFor:5,
+        }),
+
+    }),
 })
 
 export const {useCreateOrderMutation , useGetOrderByIdQuery ,
-    usePayOrderMutation,useGetPaypalClientIdQuery} =OrderApiSlice; 
+    usePayOrderMutation,useGetPaypalClientIdQuery ,useGetmyOrdersQuery} =OrderApiSlice; 

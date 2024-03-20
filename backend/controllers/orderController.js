@@ -4,6 +4,8 @@ import { customError } from "../middleware/apierror.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import razorpay from 'razorpay';
 import crypto from 'crypto';
+import razorpayModel from "../models/razorpayModel.js";
+
 
 const API_KEY='rzp_test_B4h4G5aIXIDmF3'
 const SECRET_KEY='tZlUSy0PyMSlFCCcqceqcU0Q' 
@@ -90,7 +92,7 @@ const razorpaycreateOrder= async(req ,res) =>{
 
 const paymentVerify =asyncHandler(async(req ,res ,next) =>{
     try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+        const {razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
         // Generate expected signature using Razorpay secret key
         const hmac = crypto.createHmac('sha256', SECRET_KEY);
@@ -101,6 +103,7 @@ const paymentVerify =asyncHandler(async(req ,res ,next) =>{
         if (expectedSignature === razorpay_signature) {
             // Payment verification successful
             // Perform any additional actions here (e.g., updating order status)
+            
             res.status(200).json({ success: true, message: 'Payment verification successful' });
         } else {
             // Signature mismatch, payment verification failed
@@ -112,10 +115,6 @@ const paymentVerify =asyncHandler(async(req ,res ,next) =>{
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 })
-
-
-
-
 
 
 
@@ -197,12 +196,43 @@ const updateOrderToDelivered =asyncHandler(async(req ,res ,next) =>{
 //get /api/order/id
 //private/admin
 const getAllOrders =asyncHandler(async(req ,res ,next) =>{
-    res.send('get all orders')
+    res.send('get all orders');
 });
 
+//RAZORPAY TRANSACTION HERE 
+const razorpayTransaction =asyncHandler(async(req ,res ) =>{
+
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    
+        const createTransaction = new razorpayModel({
+          user: req.activeUser,
+          razorpay_order_id,
+          razorpay_payment_id,
+          razorpay_signature,
+        });
+    
+        const savedTransaction = await createTransaction.save();
+    
+        res.status(200).json({
+          success: true,
+          transaction: savedTransaction
+        });
+      } catch (error) {
+        console.error('Error in razorpay transaction:', error);
+        res.status(500).json({
+          success: false,
+          message: 'Internal Server Error'
+        });
+      }
+
+})
 
 
-export{addOrderitems ,getMyOrders ,getOrderById,updateOrderToPaid ,updateOrderToDelivered ,getAllOrders ,paymentVerify ,razorpaycreateOrder}
+
+export{addOrderitems ,getMyOrders ,getOrderById,updateOrderToPaid 
+    ,updateOrderToDelivered ,getAllOrders ,
+    paymentVerify ,razorpaycreateOrder, razorpayTransaction}
 
 
 

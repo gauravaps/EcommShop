@@ -4,7 +4,8 @@ import { protect } from '../middleware/authMiddleware.js'
 import { admin } from '../middleware/authMiddleware.js'
 import{addOrderitems ,getMyOrders ,
     getOrderById,updateOrderToPaid ,
-    updateOrderToDelivered ,getAllOrders ,paymentVerify,razorpaycreateOrder} from '../controllers/orderController.js'
+    updateOrderToDelivered ,getAllOrders ,
+    paymentVerify,razorpaycreateOrder,razorpayTransaction} from '../controllers/orderController.js'
 
  
  router.route('/addorder').post(protect ,addOrderitems);
@@ -15,6 +16,7 @@ import{addOrderitems ,getMyOrders ,
  router.route('/:id/deliver').put(protect , admin , updateOrderToDelivered);
  router.route('/verify').post(paymentVerify)
  router.route('/createorder').post(razorpaycreateOrder)
+ router.route('/createtransaction').post(protect ,razorpayTransaction)
   
 
 

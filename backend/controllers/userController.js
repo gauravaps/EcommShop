@@ -110,7 +110,7 @@ const getuserprofile = asyncHandler(async(req ,res ,next) =>{
 const updateUserProfle =asyncHandler(async(req ,res ,next) =>{
     const {name ,email ,password} =req.body ;
 
-    const userProfile =await usermodel.findById(req.activeUser)
+    const userProfile =await usermodel.findById(req.activeUser._id)
 
     if (userProfile) {
         userProfile.name = name || userProfile.name;

@@ -25,6 +25,8 @@ const OrderScreen = () => {
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
   const [razorpayOrderId, setRazorpayOrderId] = useState('');
 
+
+  //get Razorpay oerder id Url
   useEffect(() => {
     if (order) {
       const res = axios.post('/api/order/createorder', {
@@ -75,7 +77,7 @@ const OrderScreen = () => {
       key: razorpayClient.clientId, // Your Razorpay client ID
       amount: order.totalPrice * 100, // Amount in paisa
       currency: 'INR',
-      name: 'Your Company Name',
+      name: 'Shopify',
       description: 'Purchase Description',
       image: '/your_logo.png', // Your company logo
       order_id:razorpayOrderId, // You need to generate order ID from backend
@@ -98,10 +100,21 @@ const OrderScreen = () => {
             razorpay_signature: paymentResponse.razorpay_signature,
           };
 
+        //if transaction success save all tranction ID save into databse..
+      const transactionResponse = await axios.post('/api/order/createtransaction', paymentVerificationData);
+
+      if (transactionResponse.data.success) {
+        console.log('Razorpay transaction created successfully:', transactionResponse.data.transaction);
+      } else {
+        console.error('Error creating Razorpay transaction:', transactionResponse.data.message);
+      }
+     
+
           //console all
           console.log('Razorpay Order ID:', paymentResponse.razorpay_order_id);
         console.log('Razorpay Payment ID:', paymentResponse.razorpay_payment_id);
         console.log('Razorpay Signature:', paymentResponse.razorpay_signature);
+
 
 
           const response = await fetch('/api/order/verify', {
@@ -119,13 +132,18 @@ const OrderScreen = () => {
             // Payment verification failed
             console.error('Payment verification failed:', verificationResult.message);
           }
+
+
         } catch (err) {
           toast.error(err?.data?.message || err.error);
           console.log(err)
         }
+
+
+
       },
       prefill: {
-        email: userInfo.email, // Assuming you have user's email in userInfo
+        email:userInfo.email, // Assuming you have user's email in userInfo
       },
       theme: {
         color: '#3399cc', // Theme color
@@ -134,6 +152,8 @@ const OrderScreen = () => {
     const rzp = new window.Razorpay(options);
     rzp.open();
   }
+
+ 
 
 
 

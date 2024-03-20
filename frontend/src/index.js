@@ -17,6 +17,7 @@ import PrivateRoute from './components/PrivateRoute';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import ProfleUpdateScreen from './screens/ProfleUpdateScreen';
 
 
 
@@ -46,6 +47,7 @@ root.render(
           <Route path='/payment' element={<PaymentScreen/>}/>
           <Route path='/orderplace' element={<PlaceOrderScreen/>}/>
           <Route path='/order/:id' element={<OrderScreen/>}/>
+          <Route path='/profile' element={<ProfleUpdateScreen/>}/>
 
           </Route>
 
