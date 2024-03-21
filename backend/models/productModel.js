@@ -44,7 +44,8 @@ const productSchema =new mongoose.Schema({
 
     image:{
         type:String,
-        required:true,
+        require:true,
+        
     },
 
     brand:{
@@ -91,7 +92,7 @@ const productSchema =new mongoose.Schema({
 
 
 
-},{timestamps:true})
+},{timestamps:true});
 
 
 const productmodel =mongoose.model('productmodel',productSchema);

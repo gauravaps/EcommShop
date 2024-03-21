@@ -1,5 +1,6 @@
 import { PRODUCTS_URL } from "../constant";
 import { ApiSlices } from "./ApiSlices";
+import { ADMINPRO_URL } from "../constant";
 
 
 export const ProductApiSlice =ApiSlices.injectEndpoints({
@@ -11,6 +12,7 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
                 url:PRODUCTS_URL,
                 
             }), 
+            providesTags:['product'],
             keepUnusedDataFor:5,
         }),
 
@@ -19,10 +21,30 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
                 url:`${PRODUCTS_URL}/${productId}`
             }),
             keepUnusedDataFor:5
-        })
+        }),
+
+        addproduct:builder.mutation({
+
+            query:() =>({
+                url:`${ADMINPRO_URL}/addproduct`,
+                method:'POST',
+
+            }),
+           invalidatesTags:['product'],
+        }),
+
+        editProduct:builder.mutation({
+            query:(data ) =>({
+                url:`${ADMINPRO_URL}/${data._id}`,
+                method:'PUT',
+                body:data,
+            }),
+            invalidatesTags:['products'],
+        }),
 
 
     }),
 });
 
- export const {useGetproductsQuery ,useGetsingleProductQuery} =ProductApiSlice;
+ export const {useGetproductsQuery ,useGetsingleProductQuery ,
+    useAddproductMutation ,useEditProductMutation} =ProductApiSlice; 

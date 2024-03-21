@@ -38,4 +38,5 @@ const getsingleProduct = asyncHandler(async (req, res, next) => {
 
 
 
+
 export { getallproduct, getsingleProduct };

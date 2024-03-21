@@ -9,6 +9,7 @@ import { errorHandler, Notfound} from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import { customError } from './middleware/apierror.js';
 import cors from 'cors' ;
+import adminRoute from './routes/adminProductRoute.js'
 
 
 
@@ -36,7 +37,8 @@ app.use(cors());
 
 app.use('/api', productroute); 
 app.use('/api/user',userroute); 
-app.use('/api/order' , orderRoute)
+app.use('/api/order' , orderRoute);
+app.use('/api/adminproduct' ,adminRoute)
 
 app.get('/api/config/paypal', (req, res, next) => {
     const clientId = process.env.API_KEY;
