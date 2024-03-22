@@ -12,8 +12,9 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
                 url:PRODUCTS_URL,
                 
             }), 
-            providesTags:['product'],
+            
             keepUnusedDataFor:5,
+            providesTags:['products'],
         }),
 
         getsingleProduct:builder.query({

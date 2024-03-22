@@ -28,6 +28,7 @@ const ProductEditScreen = () => {
         if(product){
             setname(product.name);
             setbrand(product.brand);
+            setimage(product.image)
             setcategory(product.category);
             setdescription(product.description);
             setprice(product.price);

@@ -119,6 +119,8 @@ const products = [
     numReviews:16, 
   }, 
   
+    
+  
   ];
   
   

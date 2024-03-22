@@ -22,6 +22,7 @@ import OrderAdminScreen from './screens/admin/OrderAdminScreen';
 import AdminRoute from './components/AdminRoute';
 import ProductListScreen from './screens/admin/ProductListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
+import AddProductScreen from './screens/admin/AddProductScreen';
 
 
 
@@ -62,6 +63,8 @@ root.render(
           <Route path='/admin/orderlist' element={<OrderAdminScreen/>}/>
           <Route path='/admin/productlist' element={<ProductListScreen/>}/>
           <Route path='/admin/product/:id/edit' element={<ProductEditScreen/>}/>
+          <Route path='/admin/addproduct' element={<AddProductScreen/>}/>
+          
 
 
           </Route>

@@ -67,6 +67,76 @@ main {
 
 
 
+/* Add product css code */
+.prodiv {
+  display: flex;
+  flex-direction:column; 
+  align-items: center;
+  width: 90%;
+  margin-left: 10%;
+  
+}
+
+.proh5 {
+  margin-top: 8%;
+  margin-right: 5%;
+  font-style:italic;
+  
+}
+
+.proform {
+  width: 90%; /* Adjust width as needed */
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap; /* Allow flex items to wrap to next line if needed */
+}
+
+.prodiv2 {
+  margin-bottom: 10px;
+  flex: 0 0 30%; /* Each div takes 30% width */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+  padding: 0 10px; /* Adjust padding as needed */
+}
+
+.prolab {
+  display: block;
+  margin-bottom: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+.proinput,
+.prosel {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.proinput[type="file"] {
+  padding: 10px 0;
+}
+
+.probtn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: 30px;
+  margin-left: 40%;
+  
+  
+}
+
+.probtn:hover {
+  background-color: #45a049;
+}
+
 
 
   

@@ -6,14 +6,14 @@ import { customError } from "../middleware/apierror.js";
 //add product
 //post method
 // private admin route only
-//api/product/addproduct
+//api/adminproduct/addproduct
 const createProduct = asyncHandler(async (req, res, next) => {
   
 
     const addproduct = new productmodel({
       user:req.activeUser._id,
       name: "sample",
-      image: "/images/nikes.jpg",
+      image: "/images/flikart.png",
       brand:'sample',
       category:'sample',
       description:'sample',
@@ -33,6 +33,8 @@ const createProduct = asyncHandler(async (req, res, next) => {
   const updateProduct =asyncHandler(async(req ,res ,next) =>{
 
     const {name,image,brand,category,description,price ,countInstock} =req.body ;
+
+  
 
     const product = await productmodel.findById(req.params.id);
 
@@ -55,6 +57,43 @@ const createProduct = asyncHandler(async (req, res, next) => {
   })
 
 
+  //add product by other functionality
+  //post method
+  //api/adminproduct/addproductbutton
+const addProductButton =asyncHandler(async(req ,res ,next) =>{
+
+try {
+  
+      const {name ,brand ,category , description ,numReviews,price,countInstock} =req.body;
+      const image = req.file.filename;
+  
+      const addnewproduct = new productmodel({
+        user:req.activeUser._id,
+        name,
+        image,
+        brand,
+        category,
+        description,
+        numReviews,
+        price,
+        countInstock,
+  
+   
+      });
+        
+    const saveproduct = await addnewproduct.save();
+    res.status(200).json({ status: 0, message: 'Product added successfully', saveproduct });
+
+} catch (err) {
+  console.log(err)
+  let error = new customError('Add product failed', 404);
+   return next(error);
+  
+}
+    
+
+  })
+
 
 
 
@@ -64,4 +103,4 @@ const createProduct = asyncHandler(async (req, res, next) => {
   
 
 
-  export { createProduct ,updateProduct};
+  export { createProduct ,updateProduct ,addProductButton};

@@ -22,7 +22,7 @@ const ProductListScreen = () => {
 
     }
 
-    //craate new product handler
+    // //craate new product handler
     const addproductHandler =async() =>{
     
 
@@ -49,8 +49,15 @@ const ProductListScreen = () => {
         </Col>
 
         <Col className='text-end'>
-            <Button className='btn=sm m-3' onClick={addproductHandler}><FaEdit/> Create product</Button>
+            
+            <Button className='btn=sm m-3'  onClick={addproductHandler}><FaEdit/> Create product</Button>
+            
+        <LinkContainer to={'/admin/addproduct'}>
+        <Button>Add product</Button>
+        </LinkContainer>
+            
         </Col>
+        
 
     </Row>
 
