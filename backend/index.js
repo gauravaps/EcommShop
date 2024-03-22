@@ -1,3 +1,4 @@
+import  Path from 'path';
 import express from 'express'
 import products from './data/products.js'
 import dotenv from 'dotenv';
@@ -9,7 +10,8 @@ import { errorHandler, Notfound} from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import { customError } from './middleware/apierror.js';
 import cors from 'cors' ;
-import adminRoute from './routes/adminProductRoute.js'
+import adminRoute from './routes/adminProductRoute.js';
+import path from 'path';
 
 
 
@@ -40,6 +42,10 @@ app.use('/api/user',userroute);
 app.use('/api/order' , orderRoute);
 app.use('/api/adminproduct' ,adminRoute)
 
+
+
+
+
 app.get('/api/config/paypal', (req, res, next) => {
     const clientId = process.env.API_KEY;
     if (!clientId) {
@@ -48,6 +54,10 @@ app.get('/api/config/paypal', (req, res, next) => {
     }
     res.send({ clientId });
 });
+
+//static path
+const __dirname= path.resolve();
+app.use('/uploads' , express.static(path.join(__dirname, 'uploads')));
 
 
 app.use(Notfound);
