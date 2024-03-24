@@ -1,6 +1,7 @@
 import { PRODUCTS_URL } from "../constant";
 import { ApiSlices } from "./ApiSlices";
 import { ADMINPRO_URL } from "../constant";
+import { UPLOAD_URL } from "../constant";
 
 
 export const ProductApiSlice =ApiSlices.injectEndpoints({
@@ -42,10 +43,17 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
             }),
             invalidatesTags:['products'],
         }),
+        uploadProductImage:builder.mutation({
+            query:(data) =>({
+                url:`${UPLOAD_URL}`,
+                method:'POST',
+                body:data,
+            }),
+        }),
 
 
     }),
 });
 
  export const {useGetproductsQuery ,useGetsingleProductQuery ,
-    useAddproductMutation ,useEditProductMutation} =ProductApiSlice; 
+    useAddproductMutation ,useEditProductMutation , useUploadProductImageMutation} =ProductApiSlice; 

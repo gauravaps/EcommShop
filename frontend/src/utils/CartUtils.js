@@ -19,7 +19,7 @@ console.log(state.cartItem)
   
 
   // Calculate the shipping price
-  const shippingPrice = itemsPrice > 100 ? 0 : 10;
+  const shippingPrice = itemsPrice > 499 ? 0 : 49;
   state.shippingPrice = addDecimal( shippingPrice)
 
   // Calculate the tax price

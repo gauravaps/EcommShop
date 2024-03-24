@@ -58,19 +58,15 @@ const ProductEditScreen = () => {
     }
 
     const uploadfileHandler = async (e) => {
-        const pic =e.target.files[0];
-        console.log(pic);
+        console.log(e.target.files[0]);
         const formData = new FormData();
         formData.append('image', e.target.files[0]);
     
         try {
             const res = await uploadProductImage(formData).unwrap();
             toast.success(res.message);
-            let newpic =res.image;
-            let cropimage =newpic.replace("uploads\\" ,"");
-            
-            setimage(cropimage);
-            
+            setimage(res.image);
+            console.log(res.image)
         } catch (err) {
             toast.error(err?.data?.message || err.error);
         }
@@ -152,4 +148,4 @@ const ProductEditScreen = () => {
   )
 }
 
-export default ProductEditScreen;
+//export default ProductEditScreen;

@@ -30,6 +30,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
   // access admin 
   //put method
   //update product
+ 
   const updateProduct =asyncHandler(async(req ,res ,next) =>{
 
     const {name,image,brand,category,description,price ,countInstock} =req.body ;
@@ -37,15 +38,21 @@ const createProduct = asyncHandler(async (req, res, next) => {
   
 
     const product = await productmodel.findById(req.params.id);
+    
 
     if(product){
         product.name=name;
-        product.image=image;
+        
         product.brand=brand;
+        product.image=image;
         product.category=category;
         product.description=description;
         product.price=price;
         product.countInstock=countInstock;
+
+      //   if(req.file) {
+      //     product.image = req.file.path;
+      // }
 
         const updateProduct =await product.save();
         res.status(200).json(updateProduct);
@@ -97,7 +104,7 @@ try {
 
 
 
-
+  
 
 
   

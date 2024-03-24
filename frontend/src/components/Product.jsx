@@ -11,12 +11,15 @@ const Product = ({prod}) => {
   return (
     <div className="product-card">
 
-    <Card className='my-3 p-3 rounded'>
-         {/* <Link to={`/product/${prod._id}`}> <Card.Img src={prod.image} variant='top'/> </Link>  */}
 
-         <Link to={`/product/${prod._id}`}> 
-         <Card.Img src={`/uploads/${prod.image}`} variant='top'/>
-          </Link>  
+    <Card className='my-3 p-3 rounded'>
+
+          <Link to={`/product/${prod._id}`}> <Card.Img src={prod.image} variant='top'/> </Link>    
+ 
+          <Link to={`/product/${prod._id}`}> 
+        <Card.Img src={`/uploads/${prod.image}`} variant='top'/> 
+        
+          </Link>    
 
 
  

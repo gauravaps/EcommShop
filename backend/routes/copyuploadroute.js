@@ -7,13 +7,13 @@ const router =express.Router()
 //mutler configuration ..
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "uploads"); // Correct: Use forward slash (/) instead of backslash (\)
+      cb(null, "uploads/"); // Uploads folder where files will be stored
     },
     filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+      cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`); // file naming 
+     
     },
-});
-
+  });
 
   //upload file here...
 const upload = multer({ storage: storage }); 
@@ -27,5 +27,5 @@ router.post('/' , upload.single('image') ,(req ,res ) =>{
 })
 
 
-export default router;
+//export default router;
 

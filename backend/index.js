@@ -12,6 +12,7 @@ import { customError } from './middleware/apierror.js';
 import cors from 'cors' ;
 import adminRoute from './routes/adminProductRoute.js';
 import path from 'path';
+import uploadRoute from './routes/uploadRouter.js'
 
 
 
@@ -41,6 +42,7 @@ app.use('/api', productroute);
 app.use('/api/user',userroute); 
 app.use('/api/order' , orderRoute);
 app.use('/api/adminproduct' ,adminRoute)
+app.use('/api/upload',uploadRoute)
 
 
 
@@ -57,7 +59,7 @@ app.get('/api/config/paypal', (req, res, next) => {
 
 //static path
 const __dirname= path.resolve();
-app.use('/uploads' , express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads' , express.static(path.join(__dirname, '/uploads')));
 
 
 app.use(Notfound);

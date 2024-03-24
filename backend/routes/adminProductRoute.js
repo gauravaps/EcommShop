@@ -1,12 +1,15 @@
+
+import  Path from "path";
 import express from "express";
 import { protect ,admin } from "../middleware/authMiddleware.js";
 import multer from "multer";
-import  Path from "path";
+
 
 const router =express.Router()
 
 import { createProduct ,updateProduct ,addProductButton} from "../controllers/adminController.js";
 import path from "path";
+
 
 //mutler configuration ..
 const storage = multer.diskStorage({
@@ -14,7 +17,7 @@ const storage = multer.diskStorage({
       cb(null, "uploads/"); // Uploads folder where files will be stored
     },
     filename: function (req, file, cb) {
-      cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`); // file naming
+      cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`); // file naming 
      
     },
   });
