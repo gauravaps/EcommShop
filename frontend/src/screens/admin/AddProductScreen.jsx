@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {toast} from 'react-toastify'
 
 
 const AddProductScreen = () => {
@@ -13,6 +14,20 @@ const AddProductScreen = () => {
   const [numReviews ,setnumReviews] =useState(0)
   const [price,setprice] = useState(0);
   const [countInstock ,setcountInstock] =useState(0)
+
+
+  
+  // Function to reset all input fields
+  const resetFormFields = () => {
+    setname('');
+    setbrand('');
+    setimage('');
+    setcategory('');
+    setdescription('');
+    setnumReviews(0);
+    setprice(0);
+    setcountInstock(0);
+  };
 
   //file handel change or picture..s
   const handleFileChange = (e) => {
@@ -43,10 +58,13 @@ const handleSubmit =async(e) =>{
   
     // if user registration successfull or failed..
         if (response.data) {
-          alert("User registered successfull");
+          //alert("User registered successfull");
+          resetFormFields();
+          toast.success('Product created successfully')
           
         } else {
-          alert("user registration failed !!");
+          //alert("user registration failed !!");
+          toast.error('Failde to add product')
         }
   
   

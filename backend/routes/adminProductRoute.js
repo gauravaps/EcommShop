@@ -7,7 +7,7 @@ import multer from "multer";
 
 const router =express.Router()
 
-import { createProduct ,updateProduct ,addProductButton} from "../controllers/adminController.js";
+import { createProduct ,updateProduct ,addProductButton ,deleteProduct} from "../controllers/adminController.js";
 import path from "path";
 
 
@@ -38,6 +38,7 @@ const upload = multer({ storage: storage });
 router.route('/addproduct').post(protect ,admin ,createProduct)
 router.route('/:id').put(protect , admin ,updateProduct)
 router.route('/addproductbutton').post(protect, admin, upload.single('image'), addProductButton);
+router.route('/delete/:id').delete(protect ,admin ,deleteProduct);
 
 
 

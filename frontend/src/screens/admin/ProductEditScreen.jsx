@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { useGetsingleProductQuery ,useEditProductMutation ,
-useUploadProductImageMutation} from '../../slices/ProductApiSlice';
+        useUploadProductImageMutation } from '../../slices/ProductApiSlice';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FormContainer } from '../../components/FormContainer';
 import { Form, Button} from 'react-bootstrap';
@@ -13,7 +13,7 @@ const ProductEditScreen = () => {
     const { id:productId } = useParams();
     const { data:product, refetch,error, isLoading } = useGetsingleProductQuery(productId);
     const [editProduct ,{isLoading:loadingeditproduct}] =useEditProductMutation()
-    const [uploadProductImage,{isLoading:loadingimage}] =useUploadProductImageMutation()
+    const [uploadProductImage,{isLoading:loadingimage}] =useUploadProductImageMutation();
 
     const navigate =useNavigate()
 
@@ -39,6 +39,8 @@ const ProductEditScreen = () => {
 
     },[product])
 
+
+ // Edit product handler   
     const submitHandler =async(e) =>{
         e.preventDefault();
         const updateProduct ={
@@ -57,6 +59,8 @@ const ProductEditScreen = () => {
         }
     }
 
+
+// upload file image
     const uploadfileHandler = async (e) => {
         const pic =e.target.files[0];
         console.log(pic);

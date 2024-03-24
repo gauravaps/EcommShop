@@ -77,7 +77,15 @@ const logout =asyncHandler(async(req ,res ,next) =>{
 //get all users
 //only for admin
 const getalluser =asyncHandler(async(req,res,next) =>{
-    res.send('all uses')
+    const users =await usermodel.find({});
+    
+    if(users){
+        res.status(200).json(users)
+    }else{
+        let err = new customError('No user found' , 404);
+        return next(err)
+    }
+
 })
 
 //get user by Id
@@ -107,6 +115,8 @@ const getuserprofile = asyncHandler(async(req ,res ,next) =>{
 
 
 //Update user profile 
+//put method
+//access user
 const updateUserProfle =asyncHandler(async(req ,res ,next) =>{
     const {name ,email ,password} =req.body ;
 
@@ -131,6 +141,79 @@ const updateUserProfle =asyncHandler(async(req ,res ,next) =>{
     }
 })
 
+//get user by Id
+//method get
+//access admin
+const getUserById =asyncHandler(async(req ,res ,next) =>{
+
+    const user = await usermodel.findById(req.params.id).select('-password');
+
+    if(user){
+        res.status(200).json(user);
+
+    }else{
+        let err = new customError(' User not found' ,404);
+        return next(err);
+    }
+
+})
 
 
-export{auth, getalluser,logout ,userRegistration ,getuserprofile,updateUserProfle};
+//delete user
+//method delete
+//access admin
+const deleteUser =asyncHandler(async(req ,res ,next) =>{
+    const user =await usermodel.findById(req.params.id)
+    if(user){
+        if(user.isAdmin){
+            res.status(400).json('you can not delete admin user')
+        }
+        await usermodel.deleteOne({_id:user._id});
+        res.status(200).json({message:'User deleted successfully'})
+
+    }else{
+        let err =new customError('User not found for delete' ,404);
+        return next(err)
+    }
+})
+
+
+//update user by Id
+//method put
+//access admin
+const updateUserById =asyncHandler(async(req ,res ,next) =>{
+
+    const user = await usermodel.findById(req.params.id)
+
+    if(user){
+        user.name =req.body.name ||user.name;
+        user.email =req.body.email || user.email;
+        user.isAdmin=Boolean(req.body.email) || user.isAdmin;
+
+        const updateUser = await user.save();
+        res.status(200).json({
+            _id:updateUser._id,
+            name:updateUser.name,
+            email:updateUser.email,
+            isAdmin:updateUser.isAdmin,
+        })
+    }else{
+        let err =new customError('User not found for update' ,404);
+        return next(err);
+    }
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+export{auth, getalluser,logout ,userRegistration ,
+    getuserprofile,updateUserProfle ,updateUserById,deleteUser,getUserById};

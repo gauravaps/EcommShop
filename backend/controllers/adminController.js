@@ -102,6 +102,24 @@ try {
   })
 
 
+  //DELETE PRODCUT
+  //DELETE METHOD
+  //ADMIN ACCESS
+  //API/ADMINPRODUCT/DELTE
+
+  const deleteProduct =asyncHandler(async(req ,res ,next) =>{
+    const findProduct =await productmodel.findById(req.params.id);
+
+    if (findProduct) {
+      await findProduct.deleteOne({_id:findProduct._id})
+      res.status(200).json({message:'product deleted'})
+      
+    }else{
+      let err = new customError('NO product found to delete ', 404);
+      return next(err)
+    }
+  })
+
 
 
   
@@ -110,4 +128,4 @@ try {
   
 
 
-  export { createProduct ,updateProduct ,addProductButton};
+  export { createProduct ,updateProduct ,addProductButton ,deleteProduct};

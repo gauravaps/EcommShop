@@ -50,10 +50,18 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
                 body:data,
             }),
         }),
+        deleteProduct:builder.mutation({
+            query:(productId) =>({
+                url:`${ADMINPRO_URL}/delete/${productId}`,
+                method:"DELETE",
+                
+            }),
+        }),
 
 
     }),
 });
 
  export const {useGetproductsQuery ,useGetsingleProductQuery ,
-    useAddproductMutation ,useEditProductMutation , useUploadProductImageMutation} =ProductApiSlice; 
+             useAddproductMutation ,useEditProductMutation ,
+            useUploadProductImageMutation , useDeleteProductMutation} =ProductApiSlice; 

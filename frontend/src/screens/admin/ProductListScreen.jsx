@@ -5,20 +5,37 @@ import Message from '../../components/Message';
 import { Table ,Button ,Row , Col } from 'react-bootstrap';
 import {FaEdit ,FaTrash } from 'react-icons/fa';
 import {LinkContainer} from 'react-router-bootstrap'
-import { useAddproductMutation } from '../../slices/ProductApiSlice';
+import { useAddproductMutation ,useDeleteProductMutation} from '../../slices/ProductApiSlice';
 import {toast} from 'react-toastify'
 
 
 const ProductListScreen = () => {
     const { data: product, error, isLoading ,refetch} = useGetproductsQuery();
-    const [saveproduct ,{isLoading:loadindaddproduct}] =useAddproductMutation()
+    const [saveproduct ,{isLoading:loadindaddproduct}] =useAddproductMutation();
+    const [deleteProduct ,{isLoading:loadindDelete}] =useDeleteProductMutation()
+
 
     if(saveproduct){
         console.log(saveproduct)
     }
 
-    const deleteHandler =(id) =>{
-        console.log('delete' ,id)
+    const deleteHandler =async(id) =>{
+
+        if(window.confirm('Are you sure want to delete product')){
+
+            try {
+                 await deleteProduct(id);
+                
+                refetch();
+                toast.success('product deleted');
+                
+                   
+               } catch (err) {
+                toast.error(err?.data?.Message || err.error);
+                   
+               }
+        }
+        
 
     }
 
@@ -29,8 +46,9 @@ const ProductListScreen = () => {
         if(window.confirm('Are you sure you want to create a prodcut')){
 
             try {
-              const res=  await saveproduct()
+                await saveproduct()
                 refetch()
+                toast.success('product created')
 
             } catch (err) {
                 console.log('this is error' ,err)
@@ -62,6 +80,8 @@ const ProductListScreen = () => {
     </Row>
 
     {loadindaddproduct && <Loader/>}
+    {loadindDelete && <Loader/>}
+
 
 
     {isLoading ?(<Loader/>):error?(<Message variant='danger'>{error}</Message>):(
@@ -94,11 +114,11 @@ const ProductListScreen = () => {
                     </td>
 
                     <td>
-                       <LinkContainer to={`/admin/product/${item._id}/delete`}>  
+                     
                        <Button variant='danger' className='btn-sm-mx-2 ' onClick={()=>deleteHandler(item._id)} >
                         <FaTrash style={{color:'white'}}/>
                        </Button>
-                       </LinkContainer>
+                       
                     </td>
                 </tr>
             ))}
