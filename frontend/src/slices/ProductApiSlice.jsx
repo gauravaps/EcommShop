@@ -58,10 +58,19 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
             }),
         }),
 
+        createReview:builder.mutation({
+            query:(data) => ({
+                url:`${ADMINPRO_URL}/${data._id}/review`,
+                method:'POST',
+                body:data,
+            }),
+            invalidatesTags:['product'],
+        }),
+
 
     }),
 });
 
  export const {useGetproductsQuery ,useGetsingleProductQuery ,
              useAddproductMutation ,useEditProductMutation ,
-            useUploadProductImageMutation , useDeleteProductMutation} =ProductApiSlice; 
+            useUploadProductImageMutation , useDeleteProductMutation ,useCreateReviewMutation} =ProductApiSlice; 
