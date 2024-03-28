@@ -67,10 +67,18 @@ export const ProductApiSlice =ApiSlices.injectEndpoints({
             invalidatesTags:['product'],
         }),
 
+        getTopproducts:builder.query({
+            query:() =>({
+                url:`${ADMINPRO_URL}/topproduct`,
+            }),
+            keepUnusedDataFor:5,
+        }),
+
 
     }),
 });
 
  export const {useGetproductsQuery ,useGetsingleProductQuery ,
              useAddproductMutation ,useEditProductMutation ,
-            useUploadProductImageMutation , useDeleteProductMutation ,useCreateReviewMutation} =ProductApiSlice; 
+            useUploadProductImageMutation , useDeleteProductMutation ,
+            useCreateReviewMutation ,useGetTopproductsQuery} =ProductApiSlice; 

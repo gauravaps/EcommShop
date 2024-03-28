@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {FaShoppingCart, FaUser} from 'react-icons/fa'
-import {Navbar ,Nav,Container, Badge, NavDropdown} from 'react-bootstrap'
+import {Navbar ,Nav,Container, Badge, Form,Button, NavDropdown} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import logo2 from '../assests/shopify white (1).png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ import { toast } from 'react-toastify'
 
 
 
+
 const Header = () => {
   const {cartItem} = useSelector((state)=>state.cart)
   const {userInfo} =useSelector((state)=> state.auth);
@@ -20,7 +21,6 @@ const Header = () => {
   const navigate =useNavigate()
   const [logoutApi] =useLogoutuserMutation()
 
-  console.log(cartItem)
 
   const logoutHandler = async()=>{
     try {
@@ -52,12 +52,16 @@ const Header = () => {
         <Container >
 
           <LinkContainer to={'/'}> 
-             <Navbar.Brand className='navbr'> <img className='navimg' src={logo2} alt="no found" /> shopify.Shop</Navbar.Brand> 
+             <Navbar.Brand className='navbr'> <img className='navimg' src={logo2} alt="no found" /></Navbar.Brand> 
              </LinkContainer>
         
         <Navbar.Toggle aria-controls='basic-navbar-nav'/>
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+
+            
+              
+              
               <LinkContainer to={'/cart'}> 
                 <Nav.Link> 
                   <FaShoppingCart/>Cart

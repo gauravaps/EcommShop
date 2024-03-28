@@ -160,6 +160,15 @@ const createProductReview = asyncHandler(async(req, res, next) => {
   }
 });
 
+//get top rated product
+//api/adminpro/top
+//access public
+const getTopProducts = asyncHandler(async(req ,res ,next) =>{
+
+  const product =await productmodel.find({}).sort({rating: -1}).limit(3);
+  res.status(200).json(product);
+})
+
 
   
 
@@ -167,4 +176,4 @@ const createProductReview = asyncHandler(async(req, res, next) => {
   
 
 
-  export { createProduct ,updateProduct ,addProductButton ,deleteProduct ,createProductReview} ;
+  export { createProduct ,updateProduct ,addProductButton ,deleteProduct ,createProductReview ,getTopProducts} ;

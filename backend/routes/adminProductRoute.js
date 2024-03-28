@@ -8,7 +8,7 @@ import multer from "multer";
 const router =express.Router()
 
 import { createProduct ,updateProduct ,addProductButton 
-  ,deleteProduct ,createProductReview} from "../controllers/adminController.js";
+  ,deleteProduct ,createProductReview ,getTopProducts} from "../controllers/adminController.js";
 import path from "path";
 
 
@@ -40,7 +40,8 @@ router.route('/addproduct').post(protect ,admin ,createProduct)
 router.route('/:id').put(protect , admin ,updateProduct)
 router.route('/addproductbutton').post(protect, admin, upload.single('image'), addProductButton);
 router.route('/delete/:id').delete(protect ,admin ,deleteProduct);
-router.route('/:id/review').post(protect ,createProductReview)
+router.route('/:id/review').post(protect ,createProductReview);
+router.route('/topproduct').get(getTopProducts);
 
 
 

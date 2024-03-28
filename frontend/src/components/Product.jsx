@@ -16,7 +16,7 @@ const Product = ({prod}) => {
 
           {/* <Link to={`/product/${prod._id}`}> <Card.Img src={prod.image} variant='top'/> </Link>     */}
  
-          <Link to={`/product/${prod._id}`}> 
+          <Link to={`/product/${prod._id}`}>  
         <Card.Img src={`/uploads/${prod.image}`} variant='top'/> 
         
           </Link>    
