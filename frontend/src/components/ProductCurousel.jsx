@@ -18,10 +18,12 @@ const ProductCurousel = () => {
                     <Link to={`/product/${item._id}`}>
                         <Image src={`/uploads/${item.image}`} alt={item.name}  
                          fluid/>
-                        <Carousel.Caption className='carousel-caption'>
-                            <h2 className='text-white text-right'>{item.name} ({item.price})</h2>
 
-                        </Carousel.Caption>
+                         <Carousel.Caption className='carousel-caption'>
+                         <h2 className='text-white text-right'>{item.name} ({item.price})</h2>
+
+                     </Carousel.Caption>
+
                     </Link>
                 </Carousel.Item>
             ))}

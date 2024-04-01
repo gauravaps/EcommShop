@@ -42,8 +42,10 @@ main {
   .review button {
     margin-top: 10px;
   }
+
+
   
-  .carousel-caption {
+  /* .carousel-caption {
     position: absolute;
     width: 100%;
     left: 0;
@@ -51,6 +53,35 @@ main {
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
   }
+
+ 
+
+
+.slice{
+  margin-left: 27%;
+} */
+
+
+/* new code for slide image */
+ .carousel-caption {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center; /* Text ko center me align karne ke liye */
+}
+
+.slice {
+    margin-left: auto; /* Margin left ko auto set karein */
+    margin-right: auto; /* Margin right ko auto set karein */
+    max-width: 100% 
+}
+
+
+
+
 
   .navimg {
      
@@ -138,9 +169,6 @@ main {
 }
 
 
-.slice{
-  margin-left: 27%;
-}
   
   
 
