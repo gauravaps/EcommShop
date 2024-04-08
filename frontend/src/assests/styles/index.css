@@ -17,11 +17,12 @@ main {
   }
   
   .product-title {
-    height: 2.5em; /* Set a fixed height */
-    overflow: hidden; /* Hide overflow content */
-    text-overflow: ellipsis; /* Add ellipsis for long text */
-    white-space: nowrap; /* Prevent wrapping */
-  }
+    height: 2.5em;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    }
+    
   
   table td,
   table th {
@@ -43,25 +44,6 @@ main {
     margin-top: 10px;
   }
 
-
-  
-  /* .carousel-caption {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-  }
-
- 
-
-
-.slice{
-  margin-left: 27%;
-} */
-
-
 /* new code for slide image */
  .carousel-caption {
     position: absolute;
@@ -70,12 +52,12 @@ main {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    text-align: center; /* Text ko center me align karne ke liye */
+    text-align: center; 
 }
 
 .slice {
-    margin-left: auto; /* Margin left ko auto set karein */
-    margin-right: auto; /* Margin right ko auto set karein */
+    margin-left: auto; 
+     margin-right: auto; 
     max-width: 100% 
 }
 
@@ -116,17 +98,17 @@ main {
 }
 
 .proform {
-  width: 90%; /* Adjust width as needed */
+  width: 90%; 
   margin-top: 20px;
   display: flex;
-  flex-wrap: wrap; /* Allow flex items to wrap to next line if needed */
+  flex-wrap: wrap;
 }
 
 .prodiv2 {
   margin-bottom: 10px;
-  flex: 0 0 30%; /* Each div takes 30% width */
-  box-sizing: border-box; /* Include padding and border in the width calculation */
-  padding: 0 10px; /* Adjust padding as needed */
+  flex: 0 0 30%; 
+  box-sizing: border-box; 
+  padding: 0 10px; 
 }
 
 .prolab {
@@ -169,16 +151,92 @@ main {
 }
 
 
-  
-  
 
+
+
+.foot {
+  background-color: rgba(17, 15, 15, 0.658);
+  padding: 20px 0px;
+  text-align: center;
+  display: block;
+}
+
+.contact {
+  margin-bottom: 20px; 
+  display: flex;
+  justify-content: center;
+}
+
+.contact-icons {
+  padding-right: 15%;
+}
+
+.acontact {
+  text-decoration: none;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.mcontact {
+  width: 100%;
+  height: 150px;
+  border: 0;
+  margin-top: 10px;
+}
+
+.follow-icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; 
+  padding-left: 15%;
+
+}
+
+.follow-icons a {
+  margin: 0 10px;
+}
+.mcontact + .follow-icons {
+  margin-top: 20px;
+  
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+  .contact {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .follow-icons {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .follow-icons a {
+    margin: 5px 0;
+  }
+}
     
     
-    
-    
-    
+.contact-icons, .follow-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 25px;
+
+}
     
     
     
 
-  
+.contact-icons p {
+  padding:8px;
+  padding-top: 5%;
+
+}
+
+.follow-icons p{
+  padding-top: 5%;
+}
+
+

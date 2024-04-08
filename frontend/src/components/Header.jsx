@@ -15,6 +15,9 @@ import { toast } from 'react-toastify'
 
 
 const Header = () => {
+
+
+
   const {cartItem} = useSelector((state)=>state.cart)
   const {userInfo} =useSelector((state)=> state.auth);
   const dispatch =useDispatch()
@@ -43,7 +46,7 @@ const Header = () => {
 
 
 
-
+ 
 
 
   return (
@@ -59,7 +62,6 @@ const Header = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
 
-            
               
               
               <LinkContainer to={'/cart'}> 
