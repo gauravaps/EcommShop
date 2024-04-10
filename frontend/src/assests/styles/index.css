@@ -330,6 +330,11 @@ main {
 }  
 
 
+ .product-card .card-body a {
+  text-decoration: none ; 
+} 
+
+
 
 
 
