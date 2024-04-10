@@ -126,6 +126,7 @@ main {
   border-radius: 5px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+
 }
 
 .proinput[type="file"] {
@@ -238,5 +239,98 @@ main {
 .follow-icons p{
   padding-top: 5%;
 }
+
+
+ 
+  
+
+
+/* Animation picture blink */
+
+.saleimage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 3%;
+}
+
+.saleimage img {
+  width: 250px;
+  height: 90px;
+  animation: blinkanimation 2s ease-in-out 0s infinite normal;
+}
+
+@keyframes blinkanimation {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+
+
+/* animations move right to left */
+
+.wraper{
+  display: flex;
+  justify-content: flex-start;
+  background-color:black;
+   overflow: hidden; 
+   
+   width: 100%; 
+   position:absolute;
+   left: 0;
+   top: 67px;
+   
+   
+    
+}
+
+.p{
+  color: white;
+  -webkit-text-stroke-width: 0.1px;
+  white-space:nowrap; 
+   padding: 0 4rem; 
+  letter-spacing: 1px;
+  animation: movertl 6000ms linear infinite;
+  margin: auto;
+
+}
+
+@keyframes movertl{
+  0%{
+      transform: translateX(0);
+      color: aqua;
+  }
+  100%{
+      transform: translateX(-100%);
+      color:yellow;
+  }
+}
+
+
+/* dropdown */
+
+.category{
+  /* background-color:rgba(32, 28, 28, 0.842); */
+  color:  #d4dde6;
+  
+  font-style: italic;
+  padding: 5px;
+
+  margin-left: 15px;
+}
+
+#category:hover  {
+  color: white; /* Change the color to white */
+}
+
+#category:focus{
+  color: white;
+}  
+
+
+
+
 
 

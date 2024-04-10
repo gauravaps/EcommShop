@@ -6,6 +6,8 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { Form } from "react-bootstrap";
 import ProductCurousel from "../components/ProductCurousel";
+import salepic from './supersale.jpg';
+import newsale from './manwoman.jpg';
 
 const Homescreen = () => {
   const { data: product, error, isLoading } = useGetproductsQuery();
@@ -24,6 +26,8 @@ const Homescreen = () => {
 
   const handleNextPage = () => {
     setCurrentPage(prevPage => prevPage + 1);
+
+    //setCurrentPage(currentPage+1);
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -33,7 +37,18 @@ const Homescreen = () => {
 
   return (
     <> 
-      <Form onSubmit={handleSubmit} className='d-flex'>
+    <div class="wraper">
+        <p className="p">SALE IS LIVE</p>
+        <p  className="p">100% GENUINE BRANDS</p>
+        <p  className="p">LATEST LAUNCHES</p>
+        <p  className="p">PREMIUM FINDS</p>
+        <p  className="p">HURRY UP!</p>
+
+    </div>
+    
+
+
+      <Form onSubmit={handleSubmit} className='d-flex p-2'>
          <Form.Control
            type='text'
            placeholder='Search products...'
@@ -44,6 +59,13 @@ const Homescreen = () => {
         <Button type='submit' variant='primary'  className='p-0 mx-2'>Search</Button>
         
       </Form> 
+
+      <div className="saleimage"> 
+
+      <img src={newsale} alt="saleimagenotfound" 
+
+       />
+      </div>
 
       <ProductCurousel/>
 
@@ -68,7 +90,8 @@ const Homescreen = () => {
               </Col>
             ))}
           </Row>
-          <Button disabled={currentProducts.length < productsPerPage} onClick={handleNextPage}>Next</Button>
+          <Button disabled={currentProducts.length < productsPerPage} onClick={handleNextPage}>Next</Button> 
+
         </>
       )}
     </>

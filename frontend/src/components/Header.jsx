@@ -57,6 +57,24 @@ const Header = () => {
           <LinkContainer to={'/'}> 
              <Navbar.Brand className='navbr'> <img className='navimg' src={logo2} alt="no found" /></Navbar.Brand> 
              </LinkContainer>
+
+                
+             <NavDropdown title='Categories' id='category' className='category'>
+                    <LinkContainer style={{color:'black', backgroundColor:'white'}} to={'/'}>
+                      <NavDropdown.Item>Mobile</NavDropdown.Item>
+                    </LinkContainer>
+
+                    <LinkContainer style={{color:'black', backgroundColor:'white'}} to={'/'}>
+                      <NavDropdown.Item >Shoes</NavDropdown.Item>
+                    </LinkContainer>
+
+                    <LinkContainer style={{color:'black', backgroundColor:'white'}} to={'/'}>
+                      <NavDropdown.Item> Clothes</NavDropdown.Item>
+                    </LinkContainer>
+                    </NavDropdown>
+
+
+
         
         <Navbar.Toggle aria-controls='basic-navbar-nav'/>
         <Navbar.Collapse id='basic-navbar-nav'>
